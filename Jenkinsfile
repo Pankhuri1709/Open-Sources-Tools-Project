@@ -1,55 +1,64 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON_ENV = "venv"
+    }
+
     stages {
-        stage('Checkout') {
+
+        stage('Clone Repository') {
             steps {
-                // Pull code from GitHub
-                git branch: 'main', url: 'https://github.com/Pankhuri1709/Open-Sources-Tools-Project/'
+                git branch: 'main',
+                    url: 'https://github.com/Pankhuri1709/Open-Sources-Tools-Project'
             }
         }
 
-        stage('Setup Python') {
+        stage('Set up Python Environment') {
             steps {
-                // Ensure Python and pip are available
-                sh 'python3 --version'
-                sh 'pip3 --version'
+                sh '''
+                python3 -m venv $PYTHON_ENV
+                . $PYTHON_ENV/bin/activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                '''
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Run Information Notebook') {
             steps {
-                // Install requirements from requirements.txt
-                sh 'pip3 install -r requirements.txt'
+                sh '''
+                . $PYTHON_ENV/bin/activate
+                jupyter nbconvert --to notebook --execute Sanchi_DataCollection&Understanding.ipynb --output Sanchi_DataCollection&Understanding_output.ipynb
+                '''
             }
         }
 
-        stage('Run Notebooks') {
+        stage('Run ML Notebook') {
             steps {
-                // Execute each notebook with Papermill
-                sh 'papermill "MarjariPusadkar_Optimisation_Visualisation.ipynb" "output_MarjariPusadkar_Optimisation_Visualisation.ipynb"'
-                sh 'papermill "Pankhuri Jain_Analysis_and_ModelPrediction.ipynb" "output_Pankhuri_Jain_Analysis_and_ModelPrediction.ipynb"'
-                sh 'papermill "Sanchi_DataCollection&Understanding.ipynb" "output_Sanchi_DataCollection&Understanding.ipynb"'
+                sh '''
+                . $PYTHON_ENV/bin/activate
+                jupyter nbconvert --to notebook --execute Pankhuri Jain_Analysis_and _ModelPredicition.ipynb --output Pankhuri Jain_Analysis_and _ModelPredicition_output.ipynb
+                '''
             }
         }
 
-        stage('Publish Results') {
+        stage('Run  Visualization Notebook') {
             steps {
-                // Archive outputs: CSVs, images, executed notebooks
-                archiveArtifacts artifacts: '**/*.csv, **/*.png, **/*.jpg, **/*.ipynb', fingerprint: true
+                sh '''
+                . $PYTHON_ENV/bin/activate
+                jupyter nbconvert --to notebook --execute MarjariPusadkar_Optimisation_Visualisation.ipynb --output MarjariPusadkar_Optimisation_Visualisation_output.ipynb
+                '''
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline finished.'
-        }
         success {
-            echo 'All notebooks executed successfully!'
+            echo 'All notebooks executed successfully ✅'
         }
         failure {
-            echo 'Pipeline failed. Check logs.'
+            echo 'Notebook execution failed ❌'
         }
     }
 }
