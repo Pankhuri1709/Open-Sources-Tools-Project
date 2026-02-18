@@ -31,12 +31,12 @@ region_sales = df.groupby('Region')['Units Sold'].sum().sort_values(ascending=Fa
 #visualization according to Category and Region
 plt.figure(figsize=(12,5))
 plt.subplot(1,2,1)
-sns.barplot(x=category_sales.index, y=category_sales.values, palette='viridis')
+sns.barplot(x=category_sales.index, y=category_sales.values, palette='viridis',legend=False)
 plt.title('Total Units Sold By Category')
 plt.xticks(rotation=45)
 
 plt.subplot(1,2,2)
-sns.barplot(x=region_sales.index, y=region_sales.values, palette='magma')
+sns.barplot(x=region_sales.index, y=region_sales.values, palette='magma',legend=False)
 plt.title('Total Units Sold By Region')
 plt.xticks(rotation=45)
 
@@ -75,7 +75,7 @@ Weathercondition_sales = df.groupby('Weather Condition')['Demand Forecast'].sum(
 
 #visualization 3 according to Weather Conditions
 plt.subplot(1,2,2)
-sns.lineplot(x=Weathercondition_sales.index, y=Weathercondition_sales.values, palette='magma')
+sns.lineplot(x=Weathercondition_sales.index, y=Weathercondition_sales.values, palette='magma',legend=False)
 plt.title('Demand Forecast in a particular Weather Condition')
 plt.xticks(rotation=45)
 plt.grid(True)
