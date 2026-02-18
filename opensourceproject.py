@@ -75,10 +75,10 @@ print("Features selected:", features)
 Weathercondition_sales = df.groupby('Weather Condition')['Demand Forecast'].sum().sort_values(ascending=False)
 
 #visualization 3 according to Weather Conditions
-plt.figure(figsize=(7,5))
+plt.figure(figsize=(8,5))
 plt.subplot(1,2,2)
 sns.lineplot(x=Weathercondition_sales.index, y=Weathercondition_sales.values, palette='magma',legend=False)
-plt.title('Demand Forecast in a particular Weather Condition')
+plt.title('Demand Forecast in a particular Weather Condition',loc='center')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
