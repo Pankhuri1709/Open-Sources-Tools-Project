@@ -11,7 +11,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-matplotlib.use('Agg')
+import matplotlib as mat
+mat.use('Agg')
 df= pd.read_csv("retail_store_inventory.csv")
 
 print(df.info())
