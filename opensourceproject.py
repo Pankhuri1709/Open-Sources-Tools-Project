@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+matplotlib.use('Agg')
 df= pd.read_csv("retail_store_inventory.csv")
 
 print(df.info())
@@ -180,5 +180,6 @@ for store in stores:
     plt.legend()
 
     plt.tight_layout()
-    plt.show()
+    plt.savefig("output.png")
+    plt.close()
 
