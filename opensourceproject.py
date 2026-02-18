@@ -12,7 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df= pd.read_csv("/content/retail_store_inventory.csv")
+df= pd.read_csv("retail_store_inventory.csv")
 
 print(df.info())
 print()
