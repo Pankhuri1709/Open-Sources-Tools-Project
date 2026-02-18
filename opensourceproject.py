@@ -81,7 +81,7 @@ plt.title('Demand Forecast in a particular Weather Condition')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('category_region_sales.png')
+plt.savefig('weathercondition.png')
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
