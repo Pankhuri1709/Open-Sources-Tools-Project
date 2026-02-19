@@ -3,7 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib as mat
+import os
 mat.use('Agg')
+folder_path="visualizations"
+os.makedirs(folder_path,exist_ok=True)
 df= pd.read_csv("retail_store_inventory.csv")
 
 print(df.info())
@@ -33,7 +36,8 @@ plt.title('Total Units Sold By Region')
 plt.xticks(rotation=45)
 
 plt.tight_layout()
-plt.savefig('category_region_sales.png')
+file_path=os.path.join(folder_path,"category_region_sales.png")
+plt.savefig(file_path)
 
 # Visualization 2: Time Trend
 time_trend = df.groupby('Date')['Units Sold'].sum().reset_index()
@@ -41,7 +45,8 @@ plt.figure(figsize=(12, 6))
 sns.lineplot(data=time_trend, x='Date', y='Units Sold')
 plt.title('Daily Total Units Sold Over Time')
 plt.grid(True)
-plt.savefig('sales_trend.png')
+file_path1=os.path.join(folder_path,"sales_trend.png")
+plt.savefig(file_path1)
 
 # Prep for Modeling: Feature Engineering
 df['Month'] = df['Date'].dt.month
@@ -69,11 +74,12 @@ Weathercondition_sales = df.groupby('Weather Condition')['Demand Forecast'].sum(
 plt.figure(figsize=(8,5))
 plt.subplot(1,2,2)
 sns.lineplot(x=Weathercondition_sales.index, y=Weathercondition_sales.values, palette='magma',legend=False)
-plt.title('Demand Forecast in a particular Weather Condition',loc='center')
+plt.title('Demand Forecast in Weather Condition',loc='center')
 plt.xticks(rotation=45)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('weathercondition.png')
+file_path2=os.path.join(folder_path,"weathercondition.png")
+plt.savefig(file_path2,dpi=300, bbox_inches='tight')
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
@@ -119,7 +125,8 @@ plt.plot(y_test.values[:100], label='Actual', alpha=0.7)
 plt.plot(y_pred[:100], label='Predicted', alpha=0.7)
 plt.title('Actual vs Predicted Units Sold (First 100 entries)')
 plt.legend()
-plt.savefig('actual_vs_predicted.png')
+file_path3=os.path.join(folder_path,"actual_vs_predicted.png")
+plt.savefig(file_path3)
 
 #Stock sufficiency check
 
@@ -173,6 +180,6 @@ for store in stores:
     plt.legend()
 
     plt.tight_layout()
-    plt.savefig("output.png")
+    file_path4=os.path.join(folder_path,"output.png")
+    plt.savefig(file_path4)
     plt.close()
-
